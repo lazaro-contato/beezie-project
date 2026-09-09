@@ -19,9 +19,12 @@ const envSchema = z
   });
 
 export const env = envSchema.parse({
-  NODE_ENV: process.env.NODE_ENV,
-  DATABASE_URL: process.env.DATABASE_URL,
-  PULL_SERVER_SECRET: process.env.PULL_SERVER_SECRET,
+  // `|| undefined`: a host panel stores an unset variable as an empty
+  // string, and a zod `.default()` only fills in for `undefined` — an empty
+  // `DATABASE_URL` would fail `.min(1)` and refuse to boot.
+  NODE_ENV: process.env.NODE_ENV || undefined,
+  DATABASE_URL: process.env.DATABASE_URL || undefined,
+  PULL_SERVER_SECRET: process.env.PULL_SERVER_SECRET || undefined,
 });
 
 export function requirePullServerSecret(): string {

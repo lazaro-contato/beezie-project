@@ -4,7 +4,9 @@
  * automatically, so a preview links to itself rather than to production; the
  * localhost fallback is what makes a fresh clone work with no `.env`. */
 export const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL ??
+  // `||`, not `??`: a host panel stores an unset variable as an empty string,
+  // which would otherwise become the origin.
+  process.env.NEXT_PUBLIC_SITE_URL ||
   (process.env.VERCEL_PROJECT_PRODUCTION_URL
     ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
     : "http://localhost:3000");
