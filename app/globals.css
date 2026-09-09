@@ -1,0 +1,130 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: var(--font-inter);
+
+  /* Radii: only the four that differ from Tailwind's defaults (4/6/8/12).
+     xs (2), 2xl (16) and 3xl (24) already match and are left alone. */
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 10px;
+  --radius-xl: 14px;
+
+  /* The dark semantic ramp, flattened. The Figma source indirects through
+     --base-x -> --colors-x-dark; with one theme there is nothing to
+     indirect through, so the final value is emitted once. */
+  --color-background: rgb(19, 19, 19);
+  --color-foreground: rgb(245, 245, 245);
+  --color-card: rgb(26, 26, 26);
+  --color-popover: rgb(26, 26, 26);
+  --color-primary: rgb(255, 202, 40);
+  --color-primary-foreground: rgb(19, 19, 19);
+  --color-secondary: rgb(37, 37, 37);
+  --color-secondary-foreground: rgb(180, 180, 180);
+  --color-muted: rgb(42, 42, 42);
+  --color-accent: rgb(42, 42, 42);
+  --color-muted-foreground: rgb(154, 154, 154);
+  --color-destructive: rgb(239, 83, 80);
+
+  --color-success: rgb(52, 211, 153);
+  --color-border: rgb(47, 47, 47);
+  --color-input: rgb(47, 47, 47);
+  --color-border-2: rgb(60, 60, 60);
+  --color-ring: rgb(60, 60, 60);
+
+  /* The rarity ramp, renamed from Figma's chart-N. RarityChip is the only
+     consumer of these five; "chart" means nothing in this product. */
+
+  --color-rarity-1: rgb(170, 170, 170);
+  --color-rarity-2: rgb(110, 231, 183);
+  --color-rarity-3: rgb(96, 165, 250);
+  --color-rarity-4: rgb(192, 132, 252);
+  --color-rarity-5: rgb(251, 191, 36);
+
+  /* The v2 surface set: a small separate group in the source, distinct from
+     the semantic ramp above. */
+  --color-v2-bg: rgb(20, 20, 21);
+  --color-v2-border-1: rgb(38, 39, 45);
+  --color-v2-gray-10: rgb(231, 232, 232);
+  --color-v2-text-primary: rgb(255, 255, 255);
+
+  --color-fill-strong: rgba(255, 255, 255, 0.075);
+  --color-fill-subtle: rgba(255, 255, 255, 0.045);
+  --color-outline: rgba(115, 115, 115, 0.5);
+
+  /* The page container. The design reference caps at 1340px; the live site
+     runs wider, so the two claw columns each get roughly half the viewport
+     up to this cap. Produces `max-w-page`. */
+  --container-page: 1400px;
+
+  --breakpoint-nav: 66.25rem;
+}
+
+@custom-variant short (@media (max-height: 740px));
+
+:root {
+  color-scheme: dark;
+}
+
+body {
+  background: var(--color-background);
+  color: var(--color-foreground);
+}
+
+/* Scroll lock for the overlays that have no client island to set it in
+ * JavaScript: the card detail, the SWAP rate dialog and the swap
+ * confirmation are all server-rendered, so they mark themselves and the page
+ * behind them stops scrolling. */
+body:has([data-scroll-lock]) {
+  overflow: hidden;
+}
+
+/*
+ * Tailwind v4's preflight leaves buttons on the UA default, which is an
+ * arrow. Every control in the product would otherwise need `cursor-pointer`
+ * spelled out on it, and the ones that got missed are invisible until
+ * someone hovers.
+ *
+ * In `@layer base` so the utilities still win: `cursor-grab` on a card in the
+ * hand and `cursor-default` on one that cannot be dragged are deliberate, and
+ * a utility beats any base rule regardless of specificity.
+ */
+@layer base {
+  button:not(:disabled),
+  summary,
+  label:has(input:not(:disabled)),
+  [role="button"]:not([aria-disabled="true"]) {
+    cursor: pointer;
+  }
+
+  button:disabled,
+  [aria-disabled="true"] {
+    cursor: not-allowed;
+  }
+}
+
+/*
+ * Dialog entrance. Declared here rather than in a module because both the
+ * overlay and the panel are plain server-rendered elements in a parallel
+ * route slot: the slot goes from `null` to the dialog on navigation, so the
+ * elements mount fresh and a CSS animation is the whole implementation.
+ */
+@keyframes overlay-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes dialog-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.97);
+  }
+}
+
+@media (pointer: coarse) {
+  .tap-target {
+    min-width: 44px;
+    min-height: 44px;
+  }
+}

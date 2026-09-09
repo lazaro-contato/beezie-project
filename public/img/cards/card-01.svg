@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 1000" width="600" height="1000" role="img" aria-label="Placeholder card artwork">
+  <title>Beezie placeholder card face — sealed collector box</title>
+  <defs>
+    <pattern id="hex-1" width="90.06664199358161" height="97.5" patternUnits="userSpaceOnUse" patternTransform="translate(0,0)">
+      <polygon points="72.96,28.60 72.96,68.90 45.04,89.05 17.12,68.90 17.12,28.60 45.04,8.45" fill="hsl(210 22% 20%)" stroke="hsl(210 30% 30%)" stroke-width="3" />
+      <polygon points="27.92,-20.15 27.92,20.15 0.00,40.30 -27.92,20.15 -27.92,-20.15 -0.00,-40.30" fill="hsl(210 22% 20%)" stroke="hsl(210 30% 30%)" stroke-width="3" />
+      <polygon points="117.98,-20.15 117.98,20.15 90.06,40.30 62.14,20.15 62.14,-20.15 90.06,-40.30" fill="hsl(210 22% 20%)" stroke="hsl(210 30% 30%)" stroke-width="3" />
+      <polygon points="27.92,77.35 27.92,117.65 0.00,137.80 -27.92,117.65 -27.92,77.35 -0.00,57.20" fill="hsl(210 22% 20%)" stroke="hsl(210 30% 30%)" stroke-width="3" />
+      <polygon points="117.98,77.35 117.98,117.65 90.06,137.80 62.14,117.65 62.14,77.35 90.06,57.20" fill="hsl(210 22% 20%)" stroke="hsl(210 30% 30%)" stroke-width="3" />
+    </pattern>
+  </defs>
+  <rect width="600" height="1000" fill="hsl(210 12% 14%)" />
+  <rect width="600" height="1000" fill="url(#hex-1)" />
+  <rect x="0" y="0" width="600" height="1000" fill="none" stroke="hsl(210 15% 8%)" stroke-width="12" />
+  <polygon points="435.10,377.50 435.10,572.50 300.00,670.00 164.90,572.50 164.90,377.50 300.00,280.00" fill="hsl(210 40% 26%)" stroke="hsl(210 55% 62%)" stroke-width="8" opacity="0.92" />
+  <polygon points="376.22,420.00 376.22,530.00 300.00,585.00 223.78,530.00 223.78,420.00 300.00,365.00" fill="none" stroke="hsl(210 55% 62%)" stroke-width="6" opacity="0.85" />
+  <text x="300" y="915" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="30" letter-spacing="8" fill="hsl(210 45% 78%)" opacity="0.85">BEEZIE</text>
+</svg>

@@ -1,0 +1,76 @@
+
+
+.perspective {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding: 12px;
+}
+
+.stack {
+  position: relative;
+  /* A drag across the card must never start a selection instead — see
+     `CardArt.tsx`'s note on the native-drag `pointercancel`. */
+  user-select: none;
+  -webkit-user-select: none;
+  width: 100%;
+  transform-style: preserve-3d;
+  will-change: transform;
+  transform: rotateX(calc(var(--tilt-x, 0) * 1deg)) rotateY(calc(var(--tilt-y, 0) * 1deg))
+    scale(var(--tilt-scale, 1));
+  transition-property: transform;
+  transition-duration: var(--tilt-duration, 520ms);
+  transition-timing-function: var(--tilt-ease, cubic-bezier(0.22, 1, 0.36, 1));
+}
+
+.flipInner {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  will-change: transform;
+  transform: rotateY(var(--card-flip-turn, 0deg));
+  transition-property: transform;
+  transition-duration: var(--card-flip-duration, 0ms);
+  transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/*
+ * `filter` here rather than a `box-shadow`: the card art is a transparent
+ * PNG-alpha silhouette, so only `drop-shadow` follows its actual outline.
+ * It also gives each face its own stacking context, which is what keeps
+ * `CardArt`'s `mix-blend-mode` layers blending with the card and not with
+ * the page behind it.
+ */
+.face {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  filter: drop-shadow(0px 22px 30px rgba(0, 0, 0, 0.6));
+}
+
+.faceDetail {
+  filter: drop-shadow(0px 24px 40px rgba(0, 0, 0, 0.6));
+}
+
+.faceBack {
+  transform: rotateY(180deg);
+}
+
+/*
+ * `CardStack`'s `pad={false}`: the hand's own `handLayout` reserves exactly
+ * `cardW` x `cardW / CARD_ASPECT` per card, so the padding above would make
+ * the painted card smaller than the reserved box. See the prop's comment in
+ * `CardStack.tsx` for why losing the tilt's breathing room is safe there.
+ */
+.flush {
+  padding: 0;
+}
+
+.fit {
+  min-height: 0;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

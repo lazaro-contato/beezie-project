@@ -1,0 +1,123 @@
+
+
+.body {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr));
+  gap: 32px;
+  align-items: stretch;
+
+  height: 100%;
+  width: 100%;
+}
+
+.cardCell {
+  width: 100%;
+  min-height: 0;
+  margin-inline: auto;
+}
+
+.info {
+  display: grid;
+  padding: 24px 0;
+}
+
+.info > * {
+  grid-area: 1 / 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-width: 460px;
+}
+
+.faceUp {
+  gap: 40px;
+}
+
+.faceDown {
+  gap: 16px;
+  visibility: hidden;
+}
+
+.body:has([data-flip="1"]:not([data-flipped="1"])) .faceDown {
+  visibility: visible;
+}
+
+.body:has([data-flip="1"]:not([data-flipped="1"])) .faceUp {
+  visibility: hidden;
+}
+
+.panel {
+  gap: 40px;
+}
+
+/* Both media blocks go last. A media query adds no specificity, so an
+ * override written above the rule it overrides simply loses. */
+@media (max-height: 820px) {
+  .panel {
+    gap: 24px;
+  }
+
+  .info {
+    padding: 8px 0;
+  }
+
+  .faceUp {
+    gap: 20px;
+  }
+}
+
+/* 840, not 750: `auto-fit` collapses when the row cannot hold two 340px
+ * tracks plus the gap, and the row is the viewport less the page, panel and
+ * body padding, so one column persists to about 840px of viewport. */
+@media (max-width: 840px) {
+  .body {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .cardCell {
+    flex: 1 1 0;
+
+    min-height: 150px;
+  }
+
+  .info {
+    flex-shrink: 0;
+    padding: 0;
+  }
+
+  .faceUp {
+    gap: 14px;
+  }
+
+  .faceDown {
+    gap: 10px;
+  }
+
+  .panel {
+    gap: 14px;
+  }
+
+  .info {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .info > * {
+    grid-area: auto;
+  }
+
+  .faceDown {
+    display: none;
+    visibility: visible;
+  }
+
+  .body:has([data-flip="1"]:not([data-flipped="1"])) .faceDown {
+    display: flex;
+  }
+
+  .body:has([data-flip="1"]:not([data-flipped="1"])) .faceUp {
+    display: none;
+  }
+}

@@ -1,0 +1,56 @@
+
+
+.art {
+  position: relative;
+  width: 100%;
+  height: 100%;
+
+  isolation: isolate;
+}
+
+/*
+ * Both layers are masked by the card's own image (`mask-image` is set
+ * inline by `CardArt.tsx`, since only it knows the src). This is the part
+ * that was missing before: the seeded card images are 600x1000 WebP with a
+ * real alpha channel and a transparent surround, so without the mask both
+ * effects paint across the full rectangular box instead of the card
+ * silhouette inside it.
+ */
+.layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  transition: opacity 260ms ease-out;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+
+.holo {
+  opacity: var(--holo-opacity, 0);
+  mix-blend-mode: color-dodge;
+  background-size: 260% 260%;
+  background-image: linear-gradient(
+    115deg,
+    rgba(255, 0, 132, 0.45) 0%,
+    rgba(255, 202, 40, 0.45) 25%,
+    rgba(0, 255, 214, 0.45) 50%,
+    rgba(120, 80, 255, 0.45) 75%,
+    rgba(255, 0, 132, 0.45) 100%
+  );
+  background-position: calc(var(--holo-mx, 50) * 1%) calc(var(--holo-my, 50) * 1%);
+}
+
+.glare {
+  opacity: var(--glare-opacity, 0);
+  mix-blend-mode: soft-light;
+  background-image: radial-gradient(
+    circle at calc(var(--holo-mx, 50) * 1%) calc(var(--holo-my, 50) * 1%),
+    rgba(255, 255, 255, 0.6) 0%,
+    rgba(255, 255, 255, 0.15) 34%,
+    rgba(255, 255, 255, 0) 62%
+  );
+}

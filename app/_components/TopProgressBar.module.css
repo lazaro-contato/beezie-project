@@ -1,0 +1,56 @@
+/*
+ * The top progress bar. A CSS animation rather than a JS-driven width: the
+ * bar has nothing to measure against — a client-side navigation reports no
+ * progress — so it eases toward 90% and waits, which is the honest shape for
+ * "something is happening and I cannot tell you how far along it is".
+ */
+.bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  height: 3px;
+  width: 100%;
+  transform-origin: 0 50%;
+  background: var(--color-primary);
+  box-shadow: 0 0 10px 1px color-mix(in oklab, var(--color-primary) 60%, transparent);
+  pointer-events: none;
+}
+
+.loading {
+  animation: navProgressGrow 8s cubic-bezier(0.1, 0.7, 0.3, 1) forwards;
+}
+
+/* The completion: whatever it had reached, straight to full, then out. */
+.done {
+  animation:
+    navProgressFinish 160ms ease-out forwards,
+    navProgressFade 200ms ease-out 160ms forwards;
+}
+
+@keyframes navProgressGrow {
+  0% {
+    transform: scaleX(0);
+  }
+  12% {
+    transform: scaleX(0.34);
+  }
+  40% {
+    transform: scaleX(0.62);
+  }
+  100% {
+    transform: scaleX(0.92);
+  }
+}
+
+@keyframes navProgressFinish {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes navProgressFade {
+  to {
+    opacity: 0;
+  }
+}

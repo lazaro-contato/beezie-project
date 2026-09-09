@@ -1,0 +1,29 @@
+/*
+ * `HoloCard.client.tsx`'s host element, and nothing else. The effect it
+ * drives lives in two sibling modules that the island never imports:
+ * `CardStack.module.css` (perspective, tilt, flip) and `CardArt.module.css`
+ * (holo, glare). This file only has to make the host a correct *input*
+ * surface for a drag.
+ *
+ * `[data-flip]` and `[data-flipped]` are written by the island's effect,
+ * never rendered by React. That ordering is deliberate: `cursor: grab` and
+ * `touch-action: none` are promises that a drag will do something, and
+ * neither is true until the island has hydrated and attached its listeners.
+ * A viewer with JavaScript disabled gets neither attribute, so they keep
+ * normal touch scrolling and a normal cursor over a card that is already
+ * face up.
+ */
+
+.host {
+  display: block;
+  width: 100%;
+}
+
+.host[data-flip="1"] {
+  touch-action: none;
+  cursor: grab;
+}
+
+.host[data-flip="1"][data-flipped="1"] {
+  cursor: default;
+}
