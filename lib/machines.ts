@@ -9,7 +9,7 @@ export const MACHINE_CRATE_ICONS: Record<MachineSlug, string> = {
   "wildcard-claw": "/img/crates/crate-blue.avif",
   "silver-claw": "/img/crates/crate-silver.avif",
   "gold-claw": "/img/crates/crate-gold.avif",
-  "platinum-claw": "/img/crates/crate-gold.avif",
+  "platinum-claw": "/img/crates/crate-platinum.avif",
 };
 
 export const CRATE_ICON_WIDTH = 40;
