@@ -22,6 +22,8 @@ export const REVEAL_VIDEO_PRIMING_ATTRIBUTE = "priming";
  *  the element instead of acting on it. */
 export const REVEAL_VIDEO_ARMED_ATTRIBUTE = "armed";
 
+/** Applied on top of the level mixed into the file's audio. iOS ignores
+ *  `volume`, so a change meant to reach every device goes into the file. */
 export const REVEAL_VIDEO_VOLUME = 0.5;
 
 /**

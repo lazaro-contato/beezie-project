@@ -7,6 +7,9 @@ import styles from "./CardStack.module.css";
 type CardStackProps = {
   card: Pick<CardDTO, "name" | "imageUrl" | "backImageUrl">;
   maxWidth: number | string;
+  /** Required when `maxWidth` is a CSS expression: `sizes` accepts lengths
+   * and media conditions only, so `var(--cap)` would be read as `100vw`. */
+  sizes?: string;
   priority?: boolean;
   /**
    * Emits the two-face flip structure instead of a single face, so
@@ -24,6 +27,7 @@ type CardStackProps = {
 export function CardStack({
   card,
   maxWidth,
+  sizes,
   priority,
   flip,
   perspective = CARD_STACK_PERSPECTIVE,
@@ -31,11 +35,11 @@ export function CardStack({
   fitHeight,
   pad = true,
 }: CardStackProps) {
-  const sizes = typeof maxWidth === "number" ? `${maxWidth}px` : maxWidth;
+  const imageSizes = sizes ?? (typeof maxWidth === "number" ? `${maxWidth}px` : "100vw");
   const hasBack = Boolean(flip && card.backImageUrl);
   const faceClassName = cn(styles.face, detailShadow && styles.faceDetail);
 
-  const front = <CardArt src={card.imageUrl} alt={card.name} sizes={sizes} priority={priority} holo />;
+  const front = <CardArt src={card.imageUrl} alt={card.name} sizes={imageSizes} priority={priority} holo />;
 
   return (
     <div
@@ -55,7 +59,7 @@ export function CardStack({
           <div className={styles.flipInner}>
             <div className={faceClassName}>{front}</div>
             <div className={cn(faceClassName, styles.faceBack)}>
-              <CardArt src={card.backImageUrl as string} alt="" sizes={sizes} />
+              <CardArt src={card.backImageUrl as string} alt="" sizes={imageSizes} />
             </div>
           </div>
         ) : (

@@ -12,6 +12,9 @@ export const CARD_HERO_MAX_WIDTH = 360;
 
 export const CARD_DETAIL_MAX_WIDTH = 340;
 
+/** The detail card's art is never wider than its cap, whatever the viewport. */
+export const CARD_DETAIL_IMAGE_SIZES = `${CARD_DETAIL_MAX_WIDTH}px`;
+
 export const CARD_STACK_PERSPECTIVE = 1200;
 export const CARD_DETAIL_PERSPECTIVE = 1100;
 

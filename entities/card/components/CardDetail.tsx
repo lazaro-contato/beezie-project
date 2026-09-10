@@ -4,7 +4,7 @@ import { Money } from "@/components/ui/Money";
 import { cardGradeLabel, cardYear } from "@/lib/card-facts";
 import { CardStack } from "./CardStack";
 import { HoloCard } from "./HoloCard.client";
-import { CARD_DETAIL_PERSPECTIVE, CARD_DETAIL_Z } from "../constants";
+import { CARD_DETAIL_IMAGE_SIZES, CARD_DETAIL_PERSPECTIVE, CARD_DETAIL_Z } from "../constants";
 import type { CardDTO } from "../types";
 
 type CardDetailProps = {
@@ -43,6 +43,7 @@ export function CardDetail({
     <CardStack
       card={card}
       maxWidth="var(--card-cap)"
+      sizes={CARD_DETAIL_IMAGE_SIZES}
       perspective={CARD_DETAIL_PERSPECTIVE}
       detailShadow
       priority
@@ -64,12 +65,14 @@ export function CardDetail({
       <Link href={closeHref} aria-label="Close card" className="fixed inset-0 bg-background/90 backdrop-blur-[30px]" />
 
       <div className="relative flex max-h-full w-[980px] max-w-full flex-col gap-2 overflow-hidden rounded-2xl bg-card p-4 ring-1 ring-inset ring-border sm:p-5 sm:px-6 sm:pb-6">
-        <Link href={previousHref} aria-label="Previous card" className={`${ARROW_CLASS} left-2`}>
+        {/* `prefetch`: the full route, overlay included, so stepping through
+            cards reads the router cache instead of waiting on a server render. */}
+        <Link href={previousHref} prefetch aria-label="Previous card" className={`${ARROW_CLASS} left-2`}>
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
             <path d="M15 18l-6-6 6-6" />
           </svg>
         </Link>
-        <Link href={nextHref} aria-label="Next card" className={`${ARROW_CLASS} right-2`}>
+        <Link href={nextHref} prefetch aria-label="Next card" className={`${ARROW_CLASS} right-2`}>
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
             <path d="M9 6l6 6-6 6" />
           </svg>
@@ -79,7 +82,7 @@ export function CardDetail({
           <span className="text-xs font-semibold text-muted-foreground">
             {position} of {total}
           </span>
-          <Link href={closeHref} aria-label="Close card" className="tap-target flex size-6 items-center justify-center text-secondary-foreground transition-colors hover:text-white">
+          <Link href={closeHref} prefetch aria-label="Close card" className="tap-target flex size-6 items-center justify-center text-secondary-foreground transition-colors hover:text-white">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden>
               <path d="M18 6L6 18" />
               <path d="M6 6l12 12" />

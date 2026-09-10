@@ -36,6 +36,12 @@ export const ODDS_PANEL_HEIGHT = 196;
 
 export const MORE_MACHINE_TILE_HEIGHT = 108;
 
+/** How many rows each list query returns by default, shared with the skeleton
+ * that stands in for the list so both lay out the same number of entries. */
+export const MORE_MACHINES_LIMIT = 4;
+export const TOP_ITEMS_LIMIT = 9;
+export const RECENT_PULLS_LIMIT = 8;
+
 /** Cadence of the odds SSE stream's `averageValueCents` frame. No frame at
  * t=0 — the server-rendered value already *is* the t0 frame, and emitting
  * one immediately on connect would read as a hydration flash. */

@@ -6,6 +6,7 @@ import { items, machines, machineTierWeights, pullItems, pulls, users } from "@/
 import { computeOdds, type OddsDTO, type TierValueAggregate, type TierWeight } from "@/lib/pull/odds";
 import { tierForValue, tierName, type Tier } from "@/lib/pull/tiers";
 import type { CardDTO } from "@/entities/card/types";
+import { MORE_MACHINES_LIMIT, RECENT_PULLS_LIMIT, TOP_ITEMS_LIMIT } from "./constants";
 import type { MachineDTO, MoreMachineDTO, RecentPullDTO } from "./types";
 
 interface CardSourceRow {
@@ -61,7 +62,7 @@ export async function getMachineBySlug(slug: string): Promise<MachineDTO | null>
  * `items.fmvCents` (served by `items_machine_fmv_idx`), a machine-scoped
  * fact rather than a per-viewer one.
  */
-export async function getTopItems(slug: string, limit = 9): Promise<CardDTO[]> {
+export async function getTopItems(slug: string, limit = TOP_ITEMS_LIMIT): Promise<CardDTO[]> {
   "use cache";
   cacheTag(`machine:${slug}`);
 
@@ -95,7 +96,7 @@ export async function getTopItems(slug: string, limit = 9): Promise<CardDTO[]> {
   return rows.map(toCardDTO);
 }
 
-export async function getMoreMachines(limit = 4): Promise<MoreMachineDTO[]> {
+export async function getMoreMachines(limit = MORE_MACHINES_LIMIT): Promise<MoreMachineDTO[]> {
   "use cache";
   cacheTag("machines:list");
 
@@ -139,7 +140,7 @@ export async function getOdds(slug: string): Promise<OddsDTO> {
   return computeOdds(weights, valueAggregates);
 }
 
-export async function getRecentPulls(slug: string, limit = 8): Promise<RecentPullDTO[]> {
+export async function getRecentPulls(slug: string, limit = RECENT_PULLS_LIMIT): Promise<RecentPullDTO[]> {
   const rows = await db
     .select({
       pullItemId: pullItems.id,

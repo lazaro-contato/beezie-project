@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { connection } from "next/server";
 import type { Route } from "next";
 import { cn } from "@/lib/cn";
 import {
@@ -20,6 +21,9 @@ type MoreMachinesProps = {
 const CRATE_SHADOW = "drop-shadow(0 8px 8px rgba(3,3,3,0.35)) drop-shadow(0 2px 3px rgba(3,3,3,0.25))";
 
 export async function MoreMachines({ currentSlug, className }: MoreMachinesProps) {
+  // Per request, so it loads behind its skeleton with the rest of the page;
+  // the query underneath stays cached.
+  await connection();
   const machines = await getMoreMachines();
 
   return (
@@ -46,7 +50,9 @@ export async function MoreMachines({ currentSlug, className }: MoreMachinesProps
               width={CRATE_ICON_WIDTH}
               height={CRATE_ICON_HEIGHT}
               className="shrink-0 object-contain"
-              style={{ filter: CRATE_SHADOW }}
+              // Both dimensions pinned: the optimizer rounds the resized height,
+              // and `height: auto` turns that into a half-pixel mismatch.
+              style={{ width: CRATE_ICON_WIDTH, height: CRATE_ICON_HEIGHT, filter: CRATE_SHADOW }}
             />
             <div className="flex w-full flex-col items-center gap-1">
               <Money cents={machine.unitPriceCents} className="text-sm font-semibold text-foreground" />

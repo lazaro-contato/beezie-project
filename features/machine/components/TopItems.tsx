@@ -1,4 +1,5 @@
 import type { Route } from "next";
+import { connection } from "next/server";
 import { CardTile } from "@/entities/card/components/CardTile";
 import { Panel } from "@/components/ui/Panel";
 import { getTopItems } from "../queries";
@@ -9,6 +10,9 @@ type TopItemsProps = {
 };
 
 export async function TopItems({ slug }: TopItemsProps) {
+  // Per request, so it loads behind its skeleton with the rest of the page;
+  // the query underneath stays cached.
+  await connection();
   const items = await getTopItems(slug);
 
   return (

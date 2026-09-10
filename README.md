@@ -87,7 +87,7 @@ calls `load()`. It marks the element ready on `canplaythrough`.
 
 ### 4. Use as much SSR as possible
 
-This was the dominant constraint. Ten client components exist in the whole
+This was the dominant constraint. Eleven client components exist in the whole
 project, each for a reason a Server Component cannot cover:
 
 | Island | Why it cannot be a Server Component |
@@ -102,6 +102,7 @@ project, each for a reason a Server Component cannot cover:
 | `SwapPendingButton.client` | `useFormStatus`, imported by an RSC |
 | `SwapSuccessDialog.client` | must outlive the navigation that produces it |
 | `TopProgressBar.client` | the App Router publishes no navigation events |
+| `MachineCrossfade.client` | document click listener, subscribes to the transition phase |
 
 Everything else renders on the server. There is no client-side data fetching
 anywhere: data comes down through RSCs, and Server Actions are the only way
@@ -118,7 +119,7 @@ parser, and if a layer imports upward.
 
 ```bash
 $ curl -s localhost:3000/claw/gold-claw | grep -o 'Charizard' | wc -l
-22
+30
 $ curl -s localhost:3000/claw/gold-claw | grep -o '<form' | wc -l
 4
 $ curl -s localhost:3000/claw/gold-claw | grep -o '<video[^>]*>' | head -1
@@ -126,7 +127,9 @@ $ curl -s localhost:3000/claw/gold-claw | grep -o '<video[^>]*>' | head -1
 ```
 
 Card names, prices, odds, the top-items grid and the recent-pulls feed are all
-in the first response, not fetched after it. The four forms carry React's
+in the first response, not fetched after it: the prerendered shell carries a
+skeleton for each, and the same response streams the content in behind them.
+The four forms carry React's
 `$ACTION_ID` fields, so the preference toggle, the promo code and the checkout
 submit without JavaScript; the same is true of swap and keep on the reveal
 route.
@@ -259,7 +262,7 @@ lint-enforced.
 | --- | --- |
 | Client components | 11 |
 | JS on the claw page | 200 KB gzip (ceiling: 220 KB) |
-| Reveal video | 1.44 MB desktop, 654 KB mobile, `+faststart` |
+| Reveal video | 1.44 MB desktop, 652 KB mobile, `+faststart` |
 | LCP element | the idle loop's poster, a 69.8 KB jpeg; a `<video poster>` is not resized by the image optimizer |
 | CLS | skeletons reserve final heights; overlays are `fixed` and reserve nothing |
 
