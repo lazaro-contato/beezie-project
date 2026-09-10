@@ -87,7 +87,7 @@ calls `load()`. It marks the element ready on `canplaythrough`.
 
 ### 4. Use as much SSR as possible
 
-This was the dominant constraint. Ten client components exist in the whole
+This was the dominant constraint. Eleven client components exist in the whole
 project, each for a reason a Server Component cannot cover:
 
 | Island | Why it cannot be a Server Component |
@@ -102,6 +102,7 @@ project, each for a reason a Server Component cannot cover:
 | `SwapPendingButton.client` | `useFormStatus`, imported by an RSC |
 | `SwapSuccessDialog.client` | must outlive the navigation that produces it |
 | `TopProgressBar.client` | the App Router publishes no navigation events |
+| `MachineCrossfade.client` | document click listener, subscribes to the transition phase |
 
 Everything else renders on the server. There is no client-side data fetching
 anywhere: data comes down through RSCs, and Server Actions are the only way
