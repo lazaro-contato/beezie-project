@@ -1,7 +1,9 @@
 import { Suspense } from "react";
 import type { Route } from "next";
 import { getRecentPulls, getTopItems } from "@/features/machine/queries";
+import { preloadCardArt } from "@/entities/card/components/CardArt";
 import { CardDetail } from "@/entities/card/components/CardDetail";
+import { CARD_DETAIL_IMAGE_SIZES } from "@/entities/card/constants";
 import type { CardDTO } from "@/entities/card/types";
 
 /** The search params this slot owns. Everything else on the URL belongs to
@@ -93,6 +95,10 @@ async function CardDetailResolver({ params, searchParams }: PageProps<"/claw/[sl
   const entry = entries[index];
   const previous = entries[(index - 1 + entries.length) % entries.length];
   const next = entries[(index + 1) % entries.length];
+
+  // The arrows' targets, downloading before either arrow is pressed.
+  preloadCardArt(previous.card.imageUrl, CARD_DETAIL_IMAGE_SIZES);
+  preloadCardArt(next.card.imageUrl, CARD_DETAIL_IMAGE_SIZES);
 
   return (
     <CardDetail

@@ -1,5 +1,6 @@
-import Image from "next/image";
+import Image, { getImageProps } from "next/image";
 import type { CSSProperties } from "react";
+import { preload } from "react-dom";
 import { cn } from "@/lib/cn";
 import styles from "./CardArt.module.css";
 import { isVectorImage } from "@/lib/image";
@@ -51,4 +52,22 @@ export function CardArt({ src, alt, sizes, priority, holo, className }: CardArtP
       ) : null}
     </div>
   );
+}
+
+/**
+ * Starts downloading a card's art at exactly the URL a `CardArt` with the same
+ * `sizes` will request, so the card is already decoded when it is shown.
+ */
+export function preloadCardArt(src: string, sizes: string): void {
+  if (isVectorImage(src)) {
+    preload(src, { as: "image", fetchPriority: "low" });
+    return;
+  }
+  const { props } = getImageProps({ src, alt: "", fill: true, sizes });
+  preload(props.src, {
+    as: "image",
+    imageSrcSet: props.srcSet,
+    imageSizes: props.sizes,
+    fetchPriority: "low",
+  });
 }
