@@ -235,8 +235,10 @@ The brief calls this out explicitly, so it gets treated as a feature.
 
 **Encode.** H.264 MP4 with `-movflags +faststart`, so the moov atom sits at
 the front and playback can start before the download finishes. Two encodes,
-1.44 MB desktop and 654 KB mobile, chosen server-side from the request rather
-than renegotiated in the browser. A poster identical to frame 0.
+1.44 MB desktop and 652 KB mobile, chosen server-side from the request rather
+than renegotiated in the browser. A poster identical to frame 0. The audio
+sits 6 dB under the supplied master: iOS ignores the element's `volume`, so
+the level every device hears has to be in the file.
 
 **It does not compete with the first paint.** The element is server-rendered
 with `preload="none"`, so it costs nothing up front. LCP is the cabinet still,

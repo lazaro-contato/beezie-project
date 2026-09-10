@@ -280,15 +280,17 @@ walkthrough that covers every path.
   does not print per-route sizes
 - LCP under 2s on simulated 4G
 - CLS equal to 0
-- Reveal video under 1.5 MB — 1.44 MB desktop, 654 KB mobile
+- Reveal video under 1.5 MB — 1.44 MB desktop, 652 KB mobile
 
 If a change blows past any of these, stop and report before continuing.
 
 ## Assets
 
 The reveal video was supplied with the brief. It lives in `public/video/` as
-two encodes, desktop and mobile, both with `-movflags +faststart` and a poster
-identical to frame 0. The cabinet's idle loop sits beside them.
+two encodes, desktop and mobile, both with `-movflags +faststart`, a poster
+identical to frame 0, and the audio 6 dB under the master: iOS ignores the
+element's `volume`, so the level every device hears lives in the file. The
+cabinet's idle loop sits beside them.
 
 Do not *source* third-party intellectual property for this repository. Assets
 that came with the brief — the graded slab photographs, the cabinet video, the

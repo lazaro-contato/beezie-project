@@ -115,9 +115,11 @@ function buildMachines(): MachineRow[] {
     artworkUrl: "/video/idle-loop-poster.jpg",
     artworkWidth: 800,
     artworkHeight: 800,
-    revealDesktopUrl: "/video/reveal-desktop.mp4",
+    // Versioned: `/video/*` is served immutable, so a re-encode needs a new URL
+    // to reach a browser that already cached the old file.
+    revealDesktopUrl: "/video/reveal-desktop.mp4?v=2",
     revealDesktopPosterUrl: "/video/reveal-desktop-poster.jpg",
-    revealMobileUrl: "/video/reveal-mobile.mp4",
+    revealMobileUrl: "/video/reveal-mobile.mp4?v=2",
     revealMobilePosterUrl: "/video/reveal-mobile-poster.jpg",
     status: "active",
     sortOrder: index,

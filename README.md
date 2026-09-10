@@ -262,7 +262,7 @@ lint-enforced.
 | --- | --- |
 | Client components | 11 |
 | JS on the claw page | 200 KB gzip (ceiling: 220 KB) |
-| Reveal video | 1.44 MB desktop, 654 KB mobile, `+faststart` |
+| Reveal video | 1.44 MB desktop, 652 KB mobile, `+faststart` |
 | LCP element | the idle loop's poster, a 69.8 KB jpeg; a `<video poster>` is not resized by the image optimizer |
 | CLS | skeletons reserve final heights; overlays are `fixed` and reserve nothing |
 
