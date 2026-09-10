@@ -118,7 +118,7 @@ parser, and if a layer imports upward.
 
 ```bash
 $ curl -s localhost:3000/claw/gold-claw | grep -o 'Charizard' | wc -l
-22
+30
 $ curl -s localhost:3000/claw/gold-claw | grep -o '<form' | wc -l
 4
 $ curl -s localhost:3000/claw/gold-claw | grep -o '<video[^>]*>' | head -1
@@ -126,7 +126,9 @@ $ curl -s localhost:3000/claw/gold-claw | grep -o '<video[^>]*>' | head -1
 ```
 
 Card names, prices, odds, the top-items grid and the recent-pulls feed are all
-in the first response, not fetched after it. The four forms carry React's
+in the first response, not fetched after it: the prerendered shell carries a
+skeleton for each, and the same response streams the content in behind them.
+The four forms carry React's
 `$ACTION_ID` fields, so the preference toggle, the promo code and the checkout
 submit without JavaScript; the same is true of swap and keep on the reveal
 route.

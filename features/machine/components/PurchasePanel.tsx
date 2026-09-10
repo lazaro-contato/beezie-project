@@ -5,7 +5,12 @@ import { MachineSummary } from "./MachineSummary";
 import { ActionRow } from "./ActionRow";
 import { OddsPanel } from "./OddsPanel";
 import { MoreMachines } from "./MoreMachines";
-import { ActionRowSkeleton, OddsPanelSkeleton } from "./skeletons";
+import {
+  ActionRowSkeleton,
+  MachineSummarySkeleton,
+  MoreMachinesSkeleton,
+  OddsPanelSkeleton,
+} from "./skeletons";
 import { ARTWORK_PANEL_HEIGHT } from "../constants";
 import type { MachineDTO } from "../types";
 
@@ -34,7 +39,9 @@ export function PurchasePanel({ machine, openCheckout, swapBadge, promo }: Purch
         boxShadow: PANEL_SHADOW,
       }}
     >
-      <MachineSummary machine={machine} swapBadge={swapBadge} className="order-1" />
+      <Suspense fallback={<MachineSummarySkeleton machine={machine} className="order-1" />}>
+        <MachineSummary machine={machine} swapBadge={swapBadge} className="order-1" />
+      </Suspense>
 
       <MobileActionBar className="order-7 nav:order-2">
         <Suspense fallback={<ActionRowSkeleton />}>
@@ -50,13 +57,15 @@ export function PurchasePanel({ machine, openCheckout, swapBadge, promo }: Purch
 
       <Separator className="order-3 nav:order-4" />
 
-      <Suspense fallback={<OddsPanelSkeleton />}>
+      <Suspense fallback={<OddsPanelSkeleton className="order-4 nav:order-5" />}>
         <OddsPanel slug={machine.slug} className="order-4 nav:order-5" />
       </Suspense>
 
       <Separator className="order-5 nav:order-6" />
 
-      <MoreMachines currentSlug={machine.slug} className="order-6 nav:order-7" />
+      <Suspense fallback={<MoreMachinesSkeleton className="order-6 nav:order-7" />}>
+        <MoreMachines currentSlug={machine.slug} className="order-6 nav:order-7" />
+      </Suspense>
     </div>
   );
 }

@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { connection } from "next/server";
 import type { Route } from "next";
 import { cn } from "@/lib/cn";
 import {
@@ -20,6 +21,9 @@ type MoreMachinesProps = {
 const CRATE_SHADOW = "drop-shadow(0 8px 8px rgba(3,3,3,0.35)) drop-shadow(0 2px 3px rgba(3,3,3,0.25))";
 
 export async function MoreMachines({ currentSlug, className }: MoreMachinesProps) {
+  // Per request, so it loads behind its skeleton with the rest of the page;
+  // the query underneath stays cached.
+  await connection();
   const machines = await getMoreMachines();
 
   return (

@@ -16,6 +16,7 @@ import { RecentPulls } from "@/features/machine/components/RecentPulls";
 import {
   RecentPullsSkeleton,
   SwapRateBadgeSkeleton,
+  TopItemsSkeleton,
 } from "@/features/machine/components/skeletons";
 import { PromoCodeForm, PromoCodeFormSkeleton } from "@/features/checkout/components/PromoCodeForm";
 
@@ -131,7 +132,9 @@ export default async function ClawMachinePage({ params, searchParams }: PageProp
           them. Waiting for 1060 left a tablet scrolling two full-width
           panels one after the other. */}
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-        <TopItems slug={machine.slug} />
+        <Suspense fallback={<TopItemsSkeleton />}>
+          <TopItems slug={machine.slug} />
+        </Suspense>
         <Suspense fallback={<RecentPullsSkeleton />}>
           <RecentPulls slug={machine.slug} />
         </Suspense>
