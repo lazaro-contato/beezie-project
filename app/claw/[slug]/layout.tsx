@@ -5,6 +5,7 @@ import { WalletBadgeSlot } from "@/features/checkout/components/WalletBadgeSlot"
 import { SiteHeaderSkeleton, WalletBadgeSkeleton } from "@/features/machine/components/skeletons";
 import { WALLET_BADGE_HEIGHT, WALLET_BADGE_WIDTH } from "@/features/machine/constants";
 import { RevealStage } from "@/features/reveal/components/RevealStage";
+import { MachineCrossfade } from "@/features/machine/components/MachineCrossfade.client";
 
 async function SiteHeaderSlot({ params }: { params: LayoutProps<"/claw/[slug]">["params"] }) {
   const { slug } = await params;
@@ -30,7 +31,9 @@ export default function ClawLayout({ params, children, sheet, card, swap, swappe
       <Suspense fallback={<SiteHeaderSkeleton />}>
         <SiteHeaderSlot params={params} />
       </Suspense>
-      <main className="relative flex min-h-0 flex-1 flex-col">{children}</main>
+      <main className="relative flex min-h-0 flex-1 flex-col">
+        <MachineCrossfade>{children}</MachineCrossfade>
+      </main>
       <Suspense fallback={null}>{sheet}</Suspense>
       <Suspense fallback={null}>{card}</Suspense>
       {/* The `@swap` slot (the SWAP rate dialog), same `fallback={null}`

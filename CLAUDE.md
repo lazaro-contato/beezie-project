@@ -66,8 +66,9 @@ Client islands allowed in this project:
 | `SwapPendingButton.client.tsx` | `useFormStatus`, imported by an RSC |
 | `SwapSuccessDialog.client.tsx` | outlives the navigation that produces it |
 | `TopProgressBar.client.tsx` | the router publishes no navigation events |
+| `MachineCrossfade.client.tsx` | document click listener, subscribes to the transition phase |
 
-Ten. Adding an eleventh means adding it to this table with the reason beside
+Eleven. Adding a twelfth means adding it to this table with the reason beside
 it. The table is the count; if a `.client.tsx` file exists that is not listed
 here, one of the two is wrong.
 

@@ -1,0 +1,27 @@
+/*
+ * Opacity only, and no transform: the machine column is a fixed-height grid
+ * and the cabinet is the LCP element, so the transition may not move anything.
+ * Opacity does not affect layout, which keeps CLS at 0 through the navigation.
+ */
+
+/*
+ * A transition, not an animation. The navigation remounts this element, and a
+ * fresh element running a fade-out keyframe would start it again from full
+ * opacity — a flash of the outgoing machine on top of the incoming one. A
+ * transition does not run on an element's first paint, so the replacement
+ * simply appears already hidden.
+ */
+.leaving {
+  opacity: 0;
+  transition: opacity 160ms ease-in;
+}
+
+.entering {
+  animation: machineEnter 260ms ease-out;
+}
+
+@keyframes machineEnter {
+  from {
+    opacity: 0;
+  }
+}
