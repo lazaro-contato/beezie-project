@@ -257,13 +257,13 @@ lint-enforced.
 
 | | |
 | --- | --- |
-| Client components | 10 |
+| Client components | 11 |
 | JS on the claw page | 200 KB gzip (ceiling: 220 KB) |
 | Reveal video | 1.44 MB desktop, 654 KB mobile, `+faststart` |
-| LCP image | 69.8 KB jpeg source, 14.0 KB avif at the width a phone requests |
+| LCP element | the idle loop's poster, a 69.8 KB jpeg; a `<video poster>` is not resized by the image optimizer |
 | CLS | skeletons reserve final heights; overlays are `fixed` and reserve nothing |
 
-Twelve scripts, the largest 69 KB: the React and Next runtime plus the ten
+Twelve scripts, the largest 69 KB: the React and Next runtime plus the eleven
 islands, rather than a stray dependency.
 
 ---

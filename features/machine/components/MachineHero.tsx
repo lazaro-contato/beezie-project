@@ -1,7 +1,6 @@
 import type { CSSProperties } from "react";
-import Image from "next/image";
 import { Panel } from "@/components/ui/Panel";
-import { IDLE_POSTER_SIZE, IDLE_VIDEO_POSTER } from "../idle-media";
+import { Skeleton } from "@/components/ui/Skeleton";
 import { ARTWORK_PANEL_HEIGHT } from "../constants";
 import type { MachineDTO } from "../types";
 
@@ -10,16 +9,17 @@ type MachineHeroProps = {
 };
 
 /**
- * The cabinet, and the LCP element.
+ * The cabinet's box, and what it shows while the cabinet loads.
  *
- * The image is the idle loop's own first frame, so the still and the video
- * that covers it once `MachineIdleStage` streams are the same picture and the
- * handover is invisible. Its placeholder is a fading box the size of the
- * final one rather than a drawn stand-in for the cabinet.
+ * It draws no picture of the cabinet: `MachineIdleStage` streams the video in
+ * over it, and until the video's poster paints this is a skeleton.
  */
 export function MachineHero({ machine }: MachineHeroProps) {
   return (
     <Panel
+      // The video over this box is `aria-hidden`, so the box carries the name.
+      role="img"
+      aria-label={machine.name}
       // Height in classes, not inline: below `nav` the cabinet is capped at
       // 56vh so the price and Start stay near the fold, and at `nav` it
       // returns to the fixed `ARTWORK_PANEL_HEIGHT` the two columns match on.
@@ -28,22 +28,12 @@ export function MachineHero({ machine }: MachineHeroProps) {
       className="flex h-[min(var(--artwork-h),56vh)] items-center justify-center overflow-hidden p-4 nav:h-full nav:min-h-[var(--artwork-h)] nav:p-6"
       style={{ "--artwork-h": `${ARTWORK_PANEL_HEIGHT}px` } as CSSProperties}
     >
-      {/* `max-h/max-w` with both dimensions auto, rather than `fill` with
-          `object-contain`: on a replaced element that produces the same fit,
-          but the element's own box ends up equal to the painted box instead
-          of to the panel. That is what lets the skeleton be its background —
-          a `fill` image leaves letterbox bands where a separate placeholder
-          behind it would still show after the photograph had painted. */}
-      <div className="flex h-full w-full items-center justify-center">
-        <Image
-          src={IDLE_VIDEO_POSTER}
-          alt={machine.name}
-          width={IDLE_POSTER_SIZE}
-          height={IDLE_POSTER_SIZE}
-          priority
-          sizes="(min-width: 1060px) 50vw, 100vw"
-          className="h-auto max-h-full w-auto max-w-full animate-pulse rounded-xl bg-muted"
-        />
+      {/* A size container, so the skeleton can be the largest square that fits.
+          The 1:1 video is letterboxed into the same square of the whole panel,
+          so its poster covers this one entirely rather than leaving pulsing
+          bands around it. */}
+      <div className="flex h-full w-full items-center justify-center [container-type:size]">
+        <Skeleton className="aspect-square w-[min(100cqw,100cqh)] rounded-xl" />
       </div>
     </Panel>
   );
